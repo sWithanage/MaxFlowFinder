@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Single MaxFlow Finder</title>
+    <link rel="icon" href="assets/icon/favicon.ico">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script type="text/javascript" src="assets/js/vis-network.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <a class="navbar-brand" href="index.html"><b><img class="logo" src="assets/icon/logo.png"/> MaxFlow Finder</b></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse  navbar-right"> </div>
+    <form class="form-inline my-2 my-lg-0">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">Single Network </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="bulk.html">Bulk Networks</a>
+            </li>
+        </ul>
+    </form>
+</nav>
+<br>
+<br>
+<div class="col-12">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6 p-3 mb-2 bg-light  text-white" style="border-radius: 5px;">
+            <small class="btnRight form-text text-danger mb-3 " id="alert"></small>
+
+            <div class="input-group " id="part1">
+                <input type="text" class="form-control" id="inputField" placeholder="Number of nodes...">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="nextButtonId" onclick="part1()">Next</button>
+                </div>
+            </div>
+
+            <div id="part2">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="edgeName" placeholder="Edge Name">
+                    <input type="text" class="form-control" id="from" placeholder="From">
+                    <input type="text" class="form-control" id="to" placeholder="To">
+                    <input type="text" class="form-control" id="capacity" placeholder="Capacity">&nbsp;
+                    <button class="btn btn-outline-secondary" type="button" id="addAnother" onclick="addEdgesAnother()">Add</button>&nbsp;
+                    <button class="btn btn-outline-secondary" type="button" id="next3" onclick="part2()">Next</button>
+                </div>
+            </div>
+
+            <div id="part3">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="source" placeholder="Source Node">
+                    <input type="text" class="form-control" id="sink" placeholder="Sink Node">
+                    <button class="btn btn-outline-secondary" type="button" id="back" onclick="backToPart2()">Back</button>
+                    <button class="btn btn-outline-secondary" type="button" id="next4" onclick="part3()">Next</button>
+                </div>
+            </div>
+
+            <div id="part4">
+                <h4 style="color:black;">
+                    <b>Max Flow :</b> <span class="answerFontSize" id="maxFlow">0</span>
+                    <button class=" btnRight btn btn-outline-secondary" type="button" id="retry" onclick="backToPart3()">Back</button>
+                </h4>
+
+            </div>
+        </div>
+        <div class="col-3">
+            <h5><b>&nbsp;&nbsp;&nbsp;Source</b> : <span id="sourceValue"></span></h5>
+            <h5><b>&nbsp;&nbsp;&nbsp;Sink</b> : <span id="sinkValue"></span></h5>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-8">
+        <b><small class=" form-text text-muted">Please scroll and fix the nodes**</small></b>
+        <div id="mynetwork"></div>
+        <br>
+    </div>
+
+    <div class="col-4">
+        <b>- Edges -</b>
+        <table class="table " id="edgeDetailsTable">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">From</th>
+                <th scope="col">To</th>
+                <th scope="col">Capacity</th>
+                <th scope="col"> </th>
+                <th scope="col"> </th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-1">
+    </div>
+
+    <div class="col-10">
+        <b>- Path Details -</b>
+        <table class="table" id="paths">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Number</th>
+                <th scope="col">Paths</th>
+                <th scope="col">Flow</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-1">
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="updateDialogModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update Edges</h4>
+            </div>
+            <div class="modal-body">
+                <small class="btnRight form-text text-danger mb-3 " id="updateModelAlert"></small>
+                <p><b>Edge Name</b><input type="text" class="form-control" id="updatedEdgeName" placeholder="Edge Name"></p>
+                <p><b>From</b><input type="text" class="form-control" id="updatedFrom" placeholder="From"></p>
+                <p><b>To</b><input type="text" class="form-control" id="updatedTo" placeholder="To"></p>
+                <p><b>Capacity</b><input type="text" class="form-control" id="updatedCapacity" placeholder="Capacity"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick = "updateNewValues()">Update</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+<footer>
+    <script src="assets/js/SingleNetworkManager.js"></script>
+    <script src="assets/js/jquery-3.1.1.min.js" />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</footer>
+
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Bulk MaxFlow Finder</title>
+    <link rel="icon" href="assets/icon/favicon.ico">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <a class="navbar-brand" href="index.html"><b><img class="logo" src="assets/icon/logo.png"/> MaxFlow Finder</b></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse  navbar-right" >  </div>
+    <form class="form-inline my-2 my-lg-0">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link" href="index.html">Single Network </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="bulk.html">Bulk Networks</a>
+            </li>
+        </ul>
+    </form>
+</nav>
+
+<br>
+<br>
+<div class="col-12">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 p-3 mb-2 bg-light  text-white" style="border-radius: 5px;">
+            <small class="btnRight form-text text-danger mb-3 " id="alert"></small>
+
+            <div class="input-group " id="part1">
+                <input type="text" class="form-control" id="numOfNodes" placeholder="Nodes">
+                <input type="text" class="form-control" id="numOfEdges" placeholder="Edges">
+                <input type="text" class="form-control" id="datasetRequiredSize" placeholder="Size Of Dataset**">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="doubleNodes" onclick="makeNodesDouble()">Double Nodes</button>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="doubleEdges" onclick="makeEdgesDouble()">Double Edges</button>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="setDataSize" onclick="updateDataSetToTable()">Set Dataset Size</button>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="reset" onclick="reset()">Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-1"></div>
+    </div>
+    <hr>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-1"></div>
+    <div class="col-5">
+        <canvas id="line-chart"></canvas><br>
+    </div>
+    <div class="col-1"></div>
+    <div class="col-5">
+        <h5 ><b>&nbsp;&nbsp;&nbsp;LAST EXECUTION TIME</b> :</h5>
+
+        <h1><br> <span id="executionTime">0.000</span>s </h1>
+        <SPAN CLASS="btnRight javaQuote">(IN JAVA ALGORITHM)</SPAN>
+    </div>
+</div>
+<hr>
+<div class="row">
+
+    <div class="col-12">
+        <table class="table" id="bulkDetails">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Node Count</th>
+                <th scope="col">Edge Details</th>
+                <th scope="col">Source Node</th>
+                <th scope="col">Sink Node</th>
+                <th scope="col">Max Flow</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+<footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="assets/js/BulkNetworkManager.js"></script>
+    <script src="assets/js/jquery-3.1.1.min.js" />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</footer>
+
+</html>
